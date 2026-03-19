@@ -1,10 +1,13 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
-const workspacePath = process.argv[2]
+const args = process.argv.slice(2)
+const workspacePath = args.find((arg) => !arg.startsWith('--'))
+const outIndex = args.indexOf('--out')
+const outputPath = outIndex >= 0 ? args[outIndex + 1] : undefined
 
 if (!workspacePath) {
-  console.error('Usage: node tools/extract-profile.mjs <workspace-path>')
+  console.error('Usage: node tools/extract-profile.mjs <workspace-path> [--out output-file]')
   process.exit(1)
 }
 
@@ -17,6 +20,11 @@ if (!fs.existsSync(normalizedWorkspacePath)) {
 
 const TEXT_EXTENSIONS = new Set(['.md', '.txt', '.json', '.yaml', '.yml', '.toml'])
 const MAX_FILES = 250
+const INSTRUCTION_FILE_HINTS = ['agent', 'instruction', 'prompt', 'system', 'readme', 'policy']
+const CONFIG_FILE_HINTS = ['json', 'yaml', 'yml', 'toml']
+const SKILL_FILE_HINTS = ['skill']
+const IGNORED_DIRECTORIES = new Set(['.git', 'node_modules', 'dist', 'coverage'])
+const IGNORED_FILENAMES = new Set(['package-lock.json', 'generated-profile.json'])
 
 const traitRules = [
   {
@@ -113,7 +121,7 @@ function walk(dir, bucket = []) {
   }
 
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (entry.name.startsWith('.git') || entry.name === 'node_modules') {
+    if (entry.isDirectory() && IGNORED_DIRECTORIES.has(entry.name)) {
       continue
     }
 
@@ -121,7 +129,10 @@ function walk(dir, bucket = []) {
 
     if (entry.isDirectory()) {
       walk(fullPath, bucket)
-    } else if (TEXT_EXTENSIONS.has(path.extname(entry.name).toLowerCase())) {
+    } else if (
+      TEXT_EXTENSIONS.has(path.extname(entry.name).toLowerCase()) &&
+      !IGNORED_FILENAMES.has(entry.name)
+    ) {
       bucket.push(fullPath)
     }
 
@@ -146,11 +157,30 @@ function findMatches(content, patterns) {
   return details
 }
 
+function fileLabel(filePath) {
+  return path.relative(normalizedWorkspacePath, filePath) || path.basename(filePath)
+}
+
+function basenameWithoutExtension(filePath) {
+  return path.basename(filePath, path.extname(filePath)).toLowerCase()
+}
+
 const files = walk(normalizedWorkspacePath)
 const fileContents = files.map((filePath) => ({
   filePath,
   content: fs.readFileSync(filePath, 'utf8'),
 }))
+
+const instructionFiles = files.filter((filePath) => {
+  const name = basenameWithoutExtension(filePath)
+  return INSTRUCTION_FILE_HINTS.some((hint) => name.includes(hint))
+})
+
+const configFiles = files.filter((filePath) => CONFIG_FILE_HINTS.includes(path.extname(filePath).slice(1).toLowerCase()))
+const skillFiles = files.filter((filePath) => {
+  const name = basenameWithoutExtension(filePath)
+  return SKILL_FILE_HINTS.some((hint) => name.includes(hint))
+})
 
 const toolPatterns = [
   ['shell', /\bshell\b|\bexec_command\b/gi],
@@ -185,6 +215,18 @@ for (const { content } of fileContents) {
   }
 }
 
+const explicitModelEvidence = [
+  ...fileContents.flatMap(({ filePath, content }) => {
+    const matches = [...content.matchAll(/\b(gpt-[a-z0-9.-]+|claude-[a-z0-9.-]+|sonnet|opus|haiku)\b/gi)]
+    return matches.slice(0, 4).map((match) => ({
+      model: match[1],
+      filePath,
+    }))
+  }),
+]
+
+const detectedModel = explicitModelEvidence[0]?.model
+
 const traits = traitRules.map((rule) => {
   const evidence = []
   let score = 50
@@ -196,7 +238,7 @@ const traits = traitRules.map((rule) => {
     for (const match of positiveMatches.slice(0, 4)) {
       evidence.push({
         kind: 'positive-signal',
-        source: path.relative(normalizedWorkspacePath, filePath) || path.basename(filePath),
+        source: fileLabel(filePath),
         detail: `Matched "${match}"`,
         weight: 8,
       })
@@ -206,7 +248,7 @@ const traits = traitRules.map((rule) => {
     for (const match of negativeMatches.slice(0, 3)) {
       evidence.push({
         kind: 'negative-signal',
-        source: path.relative(normalizedWorkspacePath, filePath) || path.basename(filePath),
+        source: fileLabel(filePath),
         detail: `Matched "${match}"`,
         weight: -7,
       })
@@ -247,6 +289,7 @@ const profile = {
     name: path.basename(normalizedWorkspacePath),
     archetype: 'OpenClaw Workspace',
     workspacePath: normalizedWorkspacePath,
+    model: detectedModel,
     temperament:
       'Measured, evidence-seeking, and tool-forward. This profile is heuristic and should be reviewed by a human.',
     summary:
@@ -254,6 +297,15 @@ const profile = {
     tools: [...discoveredTools].sort(),
     skills: [...discoveredSkills].sort(),
     constraints: [...constraints].slice(0, 8),
+    workspaceStats: {
+      fileCount: files.length,
+      instructionFileCount: instructionFiles.length,
+      configFileCount: configFiles.length,
+      skillFileCount: skillFiles.length,
+    },
+    sourceFiles: [...new Set([...instructionFiles, ...configFiles, ...skillFiles])]
+      .slice(0, 8)
+      .map((filePath) => fileLabel(filePath)),
   },
   traits,
   leadershipPrinciples: leadershipRatings,
@@ -277,4 +329,12 @@ const profile = {
   ],
 }
 
-console.log(JSON.stringify(profile, null, 2))
+const output = JSON.stringify(profile, null, 2)
+
+if (outputPath) {
+  const normalizedOutputPath = path.resolve(outputPath)
+  fs.mkdirSync(path.dirname(normalizedOutputPath), { recursive: true })
+  fs.writeFileSync(normalizedOutputPath, `${output}\n`)
+} else {
+  console.log(output)
+}

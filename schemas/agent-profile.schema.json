@@ -55,6 +55,35 @@
         },
         "summary": {
           "type": "string"
+        },
+        "workspaceStats": {
+          "type": "object",
+          "properties": {
+            "fileCount": {
+              "type": "number",
+              "minimum": 0
+            },
+            "instructionFileCount": {
+              "type": "number",
+              "minimum": 0
+            },
+            "configFileCount": {
+              "type": "number",
+              "minimum": 0
+            },
+            "skillFileCount": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        },
+        "sourceFiles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
         }
       },
       "additionalProperties": false

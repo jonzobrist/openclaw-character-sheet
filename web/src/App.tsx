@@ -1,12 +1,69 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import './App.css'
 import { RadarChart } from './components/RadarChart'
 import { openclawLobsterProfile } from './data/openclawLobsterProfile'
-import type { LeadershipPrinciple } from './types/profile'
+import type { AgentProfile, LeadershipPrinciple } from './types/profile'
 
 function App() {
-  const profile = openclawLobsterProfile
-  const [selectedTraitId, setSelectedTraitId] = useState(profile.traits[0]?.id ?? '')
+  const [profileMode, setProfileMode] = useState<'lobster' | 'workspace' | 'imported'>('lobster')
+  const [workspaceProfile, setWorkspaceProfile] = useState<AgentProfile | null>(null)
+  const [importedProfile, setImportedProfile] = useState<AgentProfile | null>(null)
+  const [loadState, setLoadState] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle')
+  const [selectedTraitId, setSelectedTraitId] = useState(openclawLobsterProfile.traits[0]?.id ?? '')
+  const [loadMessage, setLoadMessage] = useState('Load the generated profile to inspect a real workspace.')
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    let active = true
+
+    async function loadWorkspaceProfile() {
+      setLoadState('loading')
+
+      try {
+        const response = await fetch('/generated-profile.json', { cache: 'no-store' })
+
+        if (!response.ok) {
+          throw new Error(`generated-profile.json returned ${response.status}`)
+        }
+
+        const nextProfile = (await response.json()) as AgentProfile
+
+        if (!active) {
+          return
+        }
+
+        setWorkspaceProfile(nextProfile)
+        setLoadState('ready')
+        setLoadMessage(`Generated profile loaded from ${nextProfile.agent.workspacePath}`)
+      } catch (error) {
+        if (!active) {
+          return
+        }
+
+        setLoadState('error')
+        setLoadMessage(
+          error instanceof Error
+            ? error.message
+            : 'Unable to load generated-profile.json. Run the profile generation script first.',
+        )
+      }
+    }
+
+    void loadWorkspaceProfile()
+
+    return () => {
+      active = false
+    }
+  }, [])
+
+  const profile =
+    (profileMode === 'workspace' ? workspaceProfile : null) ??
+    (profileMode === 'imported' ? importedProfile : null) ??
+    openclawLobsterProfile
+
+  useEffect(() => {
+    setSelectedTraitId(profile.traits[0]?.id ?? '')
+  }, [profile])
 
   const selectedTrait = useMemo(
     () => profile.traits.find((trait) => trait.id === selectedTraitId) ?? profile.traits[0],
@@ -16,6 +73,21 @@ function App() {
   const topPrinciples = [...profile.leadershipPrinciples]
     .sort((left, right) => right.score - left.score)
     .slice(0, 4)
+
+  const sourceLabel =
+    profileMode === 'workspace'
+      ? 'Generated Workspace'
+      : profileMode === 'imported'
+        ? 'Imported JSON'
+        : 'Prototype Fixture'
+  const workspaceStatusLabel =
+    loadState === 'ready'
+      ? 'Extractor connected'
+      : loadState === 'loading'
+        ? 'Loading generated profile'
+        : loadState === 'error'
+          ? 'Generated profile unavailable'
+          : 'Awaiting generated profile'
 
   return (
     <main className="sheet-shell">
@@ -27,10 +99,65 @@ function App() {
           <p className="hero-summary">{profile.agent.summary}</p>
 
           <div className="tag-row">
-            <span className="sigil">Model: {profile.agent.model}</span>
+            <span className="sigil">Model: {profile.agent.model ?? 'unknown'}</span>
             <span className="sigil">Quest Status: Ready</span>
-            <span className="sigil">Workspace: Prototype Fixture</span>
+            <span className="sigil">Workspace: {sourceLabel}</span>
+            <span className="sigil">Extractor: {workspaceStatusLabel}</span>
           </div>
+
+          <div className="control-row">
+            <button
+              className={`mode-toggle ${profileMode === 'lobster' ? 'active' : ''}`}
+              onClick={() => setProfileMode('lobster')}
+              type="button"
+            >
+              Lobster Fixture
+            </button>
+            <button
+              className={`mode-toggle ${profileMode === 'workspace' ? 'active' : ''}`}
+              disabled={!workspaceProfile}
+              onClick={() => setProfileMode('workspace')}
+              type="button"
+            >
+              Generated Workspace
+            </button>
+            <button
+              className={`mode-toggle ${profileMode === 'imported' ? 'active' : ''}`}
+              disabled={!importedProfile}
+              onClick={() => setProfileMode('imported')}
+              type="button"
+            >
+              Imported JSON
+            </button>
+            <button
+              className="mode-toggle accent"
+              onClick={() => fileInputRef.current?.click()}
+              type="button"
+            >
+              Import Profile
+            </button>
+            <input
+              accept="application/json"
+              className="visually-hidden"
+              onChange={async (event) => {
+                const file = event.target.files?.[0]
+
+                if (!file) {
+                  return
+                }
+
+                const text = await file.text()
+                const nextProfile = JSON.parse(text) as AgentProfile
+                setImportedProfile(nextProfile)
+                setProfileMode('imported')
+                event.target.value = ''
+              }}
+              ref={fileInputRef}
+              type="file"
+            />
+          </div>
+
+          <p className="load-copy">{loadMessage}</p>
         </div>
         <div className="hero-crest">
           <div className="crest-card">
@@ -56,6 +183,8 @@ function App() {
             <StatBlock title="Tools" values={profile.agent.tools} />
             <StatBlock title="Skills" values={profile.agent.skills} />
             <StatBlock title="Constraints" values={profile.agent.constraints} />
+            <WorkspaceStats profile={profile} />
+            <StatBlock title="Source Files" values={profile.agent.sourceFiles ?? []} />
           </div>
         </div>
 
@@ -167,11 +296,47 @@ function StatBlock({ title, values }: { title: string; values: string[] }) {
     <section className="stat-block">
       <h3>{title}</h3>
       <div className="pill-list">
-        {values.map((value) => (
-          <span key={value} className="pill">
-            {value}
-          </span>
-        ))}
+        {values.length > 0 ? (
+          values.map((value) => (
+            <span key={value} className="pill">
+              {value}
+            </span>
+          ))
+        ) : (
+          <span className="pill muted">None detected yet</span>
+        )}
+      </div>
+    </section>
+  )
+}
+
+function WorkspaceStats({ profile }: { profile: AgentProfile }) {
+  const stats = profile.agent.workspaceStats
+
+  if (!stats) {
+    return null
+  }
+
+  return (
+    <section className="stat-block">
+      <h3>Workspace Stats</h3>
+      <div className="workspace-stats">
+        <div>
+          <span>{stats.fileCount}</span>
+          <p>files scanned</p>
+        </div>
+        <div>
+          <span>{stats.instructionFileCount}</span>
+          <p>instruction files</p>
+        </div>
+        <div>
+          <span>{stats.configFileCount}</span>
+          <p>config files</p>
+        </div>
+        <div>
+          <span>{stats.skillFileCount}</span>
+          <p>skill files</p>
+        </div>
       </div>
     </section>
   )

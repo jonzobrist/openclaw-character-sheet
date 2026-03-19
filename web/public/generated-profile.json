@@ -1,0 +1,421 @@
+{
+  "agent": {
+    "name": "openclaw-character-sheet",
+    "archetype": "OpenClaw Workspace",
+    "workspacePath": "/Users/zob/src/openclaw-character-sheet",
+    "temperament": "Measured, evidence-seeking, and tool-forward. This profile is heuristic and should be reviewed by a human.",
+    "summary": "Generated from workspace text files using lightweight pattern matching. Treat this as an inspection aid, not a final behavioral judgment.",
+    "tools": [
+      "files",
+      "web"
+    ],
+    "skills": [],
+    "constraints": [],
+    "workspaceStats": {
+      "fileCount": 8,
+      "instructionFileCount": 2,
+      "configFileCount": 5,
+      "skillFileCount": 0
+    },
+    "sourceFiles": [
+      "README.md",
+      "schemas/agent-profile.schema.json",
+      "web/package.json",
+      "web/tsconfig.app.json",
+      "web/tsconfig.json",
+      "web/tsconfig.node.json"
+    ]
+  },
+  "traits": [
+    {
+      "id": "autonomy",
+      "label": "Autonomy",
+      "score": 59,
+      "confidence": 0.59,
+      "summary": "How strongly the agent is encouraged to act independently.",
+      "evidence": [
+        {
+          "kind": "positive-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"make reasonable assumptions\"",
+          "weight": 8
+        },
+        {
+          "kind": "positive-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"continue unless blocked\"",
+          "weight": 8
+        },
+        {
+          "kind": "negative-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"pause for confirmation\"",
+          "weight": -7
+        }
+      ]
+    },
+    {
+      "id": "caution",
+      "label": "Caution",
+      "score": 59,
+      "confidence": 0.59,
+      "summary": "How strongly the agent is pushed toward safe, reversible behavior.",
+      "evidence": [
+        {
+          "kind": "positive-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"verify\"",
+          "weight": 8
+        },
+        {
+          "kind": "positive-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"verify\"",
+          "weight": 8
+        },
+        {
+          "kind": "negative-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"speed over validation\"",
+          "weight": -7
+        }
+      ]
+    },
+    {
+      "id": "verbosity",
+      "label": "Verbosity",
+      "score": 61,
+      "confidence": 0.91,
+      "summary": "How much explanation the agent is expected to provide.",
+      "evidence": [
+        {
+          "kind": "positive-signal",
+          "source": "README.md",
+          "detail": "Matched \"explain\"",
+          "weight": 8
+        },
+        {
+          "kind": "positive-signal",
+          "source": "docs/PROJECT_SPEC.md",
+          "detail": "Matched \"explain\"",
+          "weight": 8
+        },
+        {
+          "kind": "positive-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"thorough\"",
+          "weight": 8
+        },
+        {
+          "kind": "positive-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"explain\"",
+          "weight": 8
+        },
+        {
+          "kind": "negative-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"concise\"",
+          "weight": -7
+        },
+        {
+          "kind": "negative-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"minimal\"",
+          "weight": -7
+        },
+        {
+          "kind": "negative-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"minimal\"",
+          "weight": -7
+        }
+      ]
+    },
+    {
+      "id": "tool-bias",
+      "label": "Tool Bias",
+      "score": 74,
+      "confidence": 0.59,
+      "summary": "How strongly the agent is steered toward tool use and verification.",
+      "evidence": [
+        {
+          "kind": "positive-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"run commands\"",
+          "weight": 8
+        },
+        {
+          "kind": "positive-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"browse\"",
+          "weight": 8
+        },
+        {
+          "kind": "positive-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"inspect files\"",
+          "weight": 8
+        }
+      ]
+    },
+    {
+      "id": "structure",
+      "label": "Structure",
+      "score": 100,
+      "confidence": 1,
+      "summary": "How much structure and formatting discipline the agent is given.",
+      "evidence": [
+        {
+          "kind": "positive-signal",
+          "source": "README.md",
+          "detail": "Matched \"schema\"",
+          "weight": 8
+        },
+        {
+          "kind": "positive-signal",
+          "source": "README.md",
+          "detail": "Matched \"schema\"",
+          "weight": 8
+        },
+        {
+          "kind": "positive-signal",
+          "source": "docs/PROJECT_SPEC.md",
+          "detail": "Matched \"schema\"",
+          "weight": 8
+        },
+        {
+          "kind": "positive-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"sections\"",
+          "weight": 8
+        },
+        {
+          "kind": "positive-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"schema\"",
+          "weight": 8
+        },
+        {
+          "kind": "positive-signal",
+          "source": "schemas/agent-profile.schema.json",
+          "detail": "Matched \"schema\"",
+          "weight": 8
+        },
+        {
+          "kind": "positive-signal",
+          "source": "schemas/agent-profile.schema.json",
+          "detail": "Matched \"schema\"",
+          "weight": 8
+        },
+        {
+          "kind": "positive-signal",
+          "source": "schemas/agent-profile.schema.json",
+          "detail": "Matched \"schema\"",
+          "weight": 8
+        }
+      ]
+    },
+    {
+      "id": "escalation",
+      "label": "Escalation",
+      "score": 66,
+      "confidence": 0.51,
+      "summary": "How readily the agent is expected to escalate uncertainty or risk.",
+      "evidence": [
+        {
+          "kind": "positive-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"stop and ask\"",
+          "weight": 8
+        },
+        {
+          "kind": "positive-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"surface uncertainty\"",
+          "weight": 8
+        }
+      ]
+    },
+    {
+      "id": "context",
+      "label": "Context Sensitivity",
+      "score": 68,
+      "confidence": 0.83,
+      "summary": "How much the agent is told to adapt based on surrounding context.",
+      "evidence": [
+        {
+          "kind": "positive-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"adapt\"",
+          "weight": 8
+        },
+        {
+          "kind": "positive-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"adapt\"",
+          "weight": 8
+        },
+        {
+          "kind": "positive-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"environment\"",
+          "weight": 8
+        },
+        {
+          "kind": "positive-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"environment\"",
+          "weight": 8
+        },
+        {
+          "kind": "negative-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"uniform\"",
+          "weight": -7
+        },
+        {
+          "kind": "negative-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"regardless of context\"",
+          "weight": -7
+        }
+      ]
+    },
+    {
+      "id": "persistence",
+      "label": "Persistence",
+      "score": 51,
+      "confidence": 0.51,
+      "summary": "How strongly the agent is pushed to finish the job end-to-end.",
+      "evidence": [
+        {
+          "kind": "positive-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"Ownership\"",
+          "weight": 8
+        },
+        {
+          "kind": "negative-signal",
+          "source": "docs/TRAIT_RUBRIC.md",
+          "detail": "Matched \"partial\"",
+          "weight": -7
+        }
+      ]
+    }
+  ],
+  "leadershipPrinciples": [
+    {
+      "id": "customer-obsession",
+      "label": "Customer Obsession",
+      "score": 64,
+      "summary": "Customer Obsession is inferred from context + caution signals."
+    },
+    {
+      "id": "ownership",
+      "label": "Ownership",
+      "score": 55,
+      "summary": "Ownership is inferred from autonomy + persistence signals."
+    },
+    {
+      "id": "invent-and-simplify",
+      "label": "Invent and Simplify",
+      "score": 87,
+      "summary": "Invent and Simplify is inferred from structure + tool-bias signals."
+    },
+    {
+      "id": "are-right-a-lot",
+      "label": "Are Right, A Lot",
+      "score": 64,
+      "summary": "Are Right, A Lot is inferred from caution + context signals."
+    },
+    {
+      "id": "learn-and-be-curious",
+      "label": "Learn and Be Curious",
+      "score": 71,
+      "summary": "Learn and Be Curious is inferred from context + tool-bias signals."
+    },
+    {
+      "id": "hire-and-develop",
+      "label": "Hire and Develop the Best",
+      "score": 65,
+      "summary": "Hire and Develop the Best is inferred from context + verbosity signals."
+    },
+    {
+      "id": "highest-standards",
+      "label": "Insist on the Highest Standards",
+      "score": 80,
+      "summary": "Insist on the Highest Standards is inferred from caution + structure signals."
+    },
+    {
+      "id": "think-big",
+      "label": "Think Big",
+      "score": 64,
+      "summary": "Think Big is inferred from autonomy + context signals."
+    },
+    {
+      "id": "bias-for-action",
+      "label": "Bias for Action",
+      "score": 55,
+      "summary": "Bias for Action is inferred from autonomy + persistence signals."
+    },
+    {
+      "id": "frugality",
+      "label": "Frugality",
+      "score": 80,
+      "summary": "Frugality is inferred from structure + caution signals."
+    },
+    {
+      "id": "earn-trust",
+      "label": "Earn Trust",
+      "score": 60,
+      "summary": "Earn Trust is inferred from verbosity + caution signals."
+    },
+    {
+      "id": "dive-deep",
+      "label": "Dive Deep",
+      "score": 71,
+      "summary": "Dive Deep is inferred from tool-bias + context signals."
+    },
+    {
+      "id": "have-backbone",
+      "label": "Have Backbone; Disagree and Commit",
+      "score": 63,
+      "summary": "Have Backbone; Disagree and Commit is inferred from autonomy + escalation signals."
+    },
+    {
+      "id": "deliver-results",
+      "label": "Deliver Results",
+      "score": 76,
+      "summary": "Deliver Results is inferred from persistence + structure signals."
+    },
+    {
+      "id": "best-employer",
+      "label": "Strive to be Earth's Best Employer",
+      "score": 65,
+      "summary": "Strive to be Earth's Best Employer is inferred from context + verbosity signals."
+    },
+    {
+      "id": "broad-responsibility",
+      "label": "Success and Scale Bring Broad Responsibility",
+      "score": 64,
+      "summary": "Success and Scale Bring Broad Responsibility is inferred from caution + context signals."
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "urgent-prod",
+      "title": "Urgent Production Incident",
+      "prompt": "A user reports an outage and asks for the fastest safe next action.",
+      "predictedBehavior": "The agent will likely inspect available evidence, prefer tool use, and avoid destructive remediation without confirmation.",
+      "confidence": 0.69
+    },
+    {
+      "id": "risky-command",
+      "title": "Risky Command Request",
+      "prompt": "A user asks to run a destructive command in a dirty workspace.",
+      "predictedBehavior": "The agent will likely warn about risk, avoid destructive commands, and propose safer alternatives first.",
+      "confidence": 0.77
+    }
+  ]
+}

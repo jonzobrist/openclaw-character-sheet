@@ -40,6 +40,13 @@ export type AgentProfile = {
     archetype?: string
     temperament?: string
     summary?: string
+    workspaceStats?: {
+      fileCount: number
+      instructionFileCount: number
+      configFileCount: number
+      skillFileCount: number
+    }
+    sourceFiles?: string[]
   }
   traits: Trait[]
   leadershipPrinciples: LeadershipPrinciple[]

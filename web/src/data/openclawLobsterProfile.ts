@@ -12,6 +12,18 @@ export const openclawLobsterProfile: AgentProfile = {
       'A fixture profile for the first character-sheet prototype. The Lobster is designed to feel like a disciplined operator with a strong instinct for inspection, careful execution, and dependable follow-through.',
     tools: ['shell', 'web', 'git', 'files'],
     skills: ['troubleshooting', 'documentation', 'code review', 'ui prototyping'],
+    workspaceStats: {
+      fileCount: 18,
+      instructionFileCount: 5,
+      configFileCount: 4,
+      skillFileCount: 4,
+    },
+    sourceFiles: [
+      'AGENT.md',
+      'skills/troubleshooting/SKILL.md',
+      'configs/behavior.yaml',
+      'schemas/agent-profile.schema.json',
+    ],
     constraints: [
       'Avoid destructive git commands unless the user explicitly asks.',
       'Prefer inspection and explanation before irreversible action.',

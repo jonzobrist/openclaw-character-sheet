@@ -55,6 +55,15 @@ npm run dev
 node tools/extract-profile.mjs /path/to/openclaw-workspace
 ```
 
+Write the profile directly into the app's public folder:
+
+```bash
+cd web
+npm run profile:sample
+```
+
+Then start the app and switch from `Lobster Fixture` to `Generated Workspace`, or import any compatible JSON profile with the in-app import button.
+
 ## Suggested Next Steps
 
 1. point the extractor at a real OpenClaw workspace
