@@ -1,0 +1,426 @@
+.sheet-shell {
+  display: grid;
+  gap: 24px;
+}
+
+.panel {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(255, 251, 235, 0.96), rgba(241, 226, 190, 0.96));
+  border: 1px solid rgba(92, 59, 31, 0.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 18px 45px rgba(40, 23, 11, 0.18);
+  border-radius: 24px;
+  padding: 28px;
+  overflow: hidden;
+}
+
+.panel::after {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(92, 59, 31, 0.16);
+  border-radius: 18px;
+  pointer-events: none;
+}
+
+.hero-panel {
+  display: grid;
+  grid-template-columns: 1.45fr 0.9fr;
+  gap: 24px;
+  min-height: 360px;
+}
+
+.hero-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.8), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(139, 49, 19, 0.16), transparent 28%);
+  pointer-events: none;
+}
+
+.hero-copy,
+.hero-crest,
+.overview-grid,
+.character-grid,
+.scenario-grid {
+  position: relative;
+  z-index: 1;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  color: var(--accent-strong);
+}
+
+.hero-subtitle {
+  margin: 0 0 12px;
+  color: var(--ink-faded);
+  font-size: 1.2rem;
+}
+
+.hero-summary,
+.detail-summary,
+.scenario-prompt,
+.scenario-behavior,
+.principle-card p,
+.highlight-card p,
+.crest-caption {
+  color: var(--ink-faded);
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.sigil,
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(92, 59, 31, 0.18);
+  background: rgba(255, 248, 225, 0.82);
+  color: var(--ink-strong);
+  font-size: 0.92rem;
+}
+
+.crest-card {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  justify-items: center;
+  text-align: center;
+  background: rgba(82, 42, 23, 0.08);
+  border: 1px solid rgba(92, 59, 31, 0.12);
+  border-radius: 22px;
+  padding: 22px;
+  min-height: 100%;
+}
+
+.crest-title {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent-strong);
+}
+
+.crest-art {
+  position: relative;
+  width: 220px;
+  height: 180px;
+}
+
+.lobster-shell,
+.claw {
+  position: absolute;
+  display: block;
+  background: linear-gradient(180deg, #c75d32, #812f1e);
+  border: 2px solid rgba(78, 24, 11, 0.4);
+  box-shadow: inset 0 2px 8px rgba(255, 205, 166, 0.24);
+}
+
+.lobster-shell {
+  width: 110px;
+  height: 140px;
+  left: 55px;
+  top: 18px;
+  border-radius: 56px 56px 44px 44px;
+}
+
+.lobster-shell::before,
+.lobster-shell::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 34px;
+  border-radius: 50%;
+  background: #ffe1a8;
+}
+
+.lobster-shell::before {
+  left: 18px;
+}
+
+.lobster-shell::after {
+  right: 18px;
+}
+
+.claw {
+  width: 58px;
+  height: 94px;
+  top: 46px;
+  border-radius: 34px;
+}
+
+.claw-left {
+  left: 4px;
+  transform: rotate(-28deg);
+}
+
+.claw-right {
+  right: 4px;
+  transform: rotate(28deg);
+}
+
+.overview-grid,
+.character-grid {
+  display: grid;
+  gap: 24px;
+}
+
+.overview-grid {
+  grid-template-columns: 1.05fr 1fr;
+}
+
+.character-grid {
+  grid-template-columns: 1.1fr 0.9fr;
+}
+
+.section-heading {
+  margin-bottom: 20px;
+}
+
+.section-heading h2,
+.highlight-card h3,
+.stat-block h3,
+.principle-card h3 {
+  margin: 0;
+}
+
+.inventory-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.stat-block {
+  border-radius: 18px;
+  border: 1px solid rgba(92, 59, 31, 0.14);
+  background: rgba(255, 251, 236, 0.76);
+  padding: 18px;
+}
+
+.pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.radar-card {
+  display: grid;
+  height: 100%;
+}
+
+.radar-chart {
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.radar-grid,
+.radar-axis {
+  fill: none;
+  stroke: rgba(92, 59, 31, 0.18);
+  stroke-width: 1;
+}
+
+.radar-fill {
+  fill: rgba(101, 35, 21, 0.2);
+  stroke: rgba(101, 35, 21, 0.88);
+  stroke-width: 2.5;
+}
+
+.radar-node {
+  fill: #8b3113;
+}
+
+.radar-label {
+  fill: var(--ink-faded);
+  font-size: 11px;
+  text-anchor: middle;
+}
+
+.traits-grid,
+.principles-grid,
+.scenario-grid,
+.codex-highlights {
+  display: grid;
+  gap: 16px;
+}
+
+.traits-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.codex-highlights {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 18px;
+}
+
+.principles-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.scenario-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.trait-card,
+.highlight-card,
+.principle-card,
+.scenario-card,
+.evidence-item {
+  border-radius: 18px;
+  border: 1px solid rgba(92, 59, 31, 0.14);
+  background: rgba(255, 251, 236, 0.76);
+}
+
+.trait-card {
+  display: grid;
+  text-align: left;
+  gap: 10px;
+  padding: 18px;
+  color: inherit;
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease;
+}
+
+.trait-card:hover,
+.trait-card:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 30px rgba(59, 32, 16, 0.12);
+  border-color: rgba(101, 35, 21, 0.3);
+}
+
+.trait-card.selected {
+  background: linear-gradient(180deg, rgba(255, 244, 214, 0.96), rgba(243, 219, 179, 0.96));
+  border-color: rgba(101, 35, 21, 0.36);
+}
+
+.trait-score,
+.highlight-score {
+  font-family: var(--display);
+  font-size: 2rem;
+  color: var(--accent-strong);
+}
+
+.trait-name,
+.scenario-title,
+.evidence-source {
+  font-weight: 700;
+  color: var(--ink-strong);
+}
+
+.trait-summary {
+  color: var(--ink-faded);
+  font-size: 0.95rem;
+}
+
+.evidence-panel {
+  display: grid;
+  align-content: start;
+}
+
+.meter-shell {
+  height: 14px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(92, 59, 31, 0.12);
+  margin: 18px 0 10px;
+}
+
+.meter-shell.compact {
+  height: 10px;
+}
+
+.meter-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #8b3113, #c75d32, #f3bf78);
+}
+
+.confidence-copy,
+.scenario-confidence,
+.evidence-source span {
+  font-size: 0.9rem;
+  color: var(--ink-faded);
+}
+
+.evidence-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.evidence-item {
+  padding: 14px 16px;
+}
+
+.highlight-card,
+.principle-card,
+.scenario-card {
+  padding: 18px;
+}
+
+.highlight-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.principle-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.scenario-card {
+  display: grid;
+  gap: 10px;
+}
+
+@media (max-width: 1100px) {
+  .hero-panel,
+  .overview-grid,
+  .character-grid,
+  .codex-highlights,
+  .principles-grid,
+  .scenario-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .panel {
+    padding: 20px;
+  }
+
+  .traits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .crest-art {
+    width: 180px;
+    height: 150px;
+  }
+
+  .lobster-shell {
+    left: 35px;
+  }
+}

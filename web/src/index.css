@@ -1,0 +1,103 @@
+:root {
+  --page-bg: #24150f;
+  --page-bg-glow: #4e2f1d;
+  --panel-bg: #f5e7c8;
+  --panel-bg-strong: #edd8ae;
+  --ink: #553625;
+  --ink-strong: #2d1b13;
+  --ink-faded: #6b4a35;
+  --accent: #b6562f;
+  --accent-strong: #7b2f17;
+  --line: rgba(92, 59, 31, 0.22);
+  --display: 'Iowan Old Style', 'Bookman Old Style', 'Palatino Linotype', serif;
+  --body: 'Avenir Next', 'Gill Sans', 'Trebuchet MS', sans-serif;
+  --mono: 'SFMono-Regular', 'Menlo', 'Consolas', monospace;
+
+  font: 18px/1.55 var(--body);
+  letter-spacing: 0.18px;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top, rgba(132, 76, 47, 0.34), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(255, 193, 117, 0.08), transparent 20%),
+    linear-gradient(180deg, var(--page-bg), #1b100b);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  width: 1280px;
+  max-width: 100%;
+  margin: 0 auto;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 28px;
+}
+
+body {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+.trait-score,
+.highlight-score {
+  font-family: var(--display);
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 600;
+  color: var(--ink-strong);
+}
+
+h1 {
+  font-size: clamp(3.2rem, 6vw, 5.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  margin: 0 0 10px;
+}
+
+h2 {
+  font-size: clamp(1.65rem, 2vw, 2.2rem);
+  line-height: 1.1;
+}
+
+h3 {
+  font-size: 1.1rem;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(92, 59, 31, 0.08);
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  border: 0;
+  background: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  :root {
+    font-size: 16px;
+  }
+
+  #root {
+    padding: 16px;
+  }
+}

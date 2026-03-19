@@ -6,6 +6,7 @@
   "required": [
     "agent",
     "traits",
+    "leadershipPrinciples",
     "scenarios"
   ],
   "properties": {
@@ -45,6 +46,15 @@
             "type": "string"
           },
           "default": []
+        },
+        "archetype": {
+          "type": "string"
+        },
+        "temperament": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
         }
       },
       "additionalProperties": false
@@ -105,6 +115,35 @@
               },
               "additionalProperties": false
             }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "leadershipPrinciples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "score",
+          "summary"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "summary": {
+            "type": "string"
           }
         },
         "additionalProperties": false

@@ -138,6 +138,36 @@ For v1, use a transparent rule-based model:
 
 This can later be augmented by model-assisted interpretation, but deterministic scoring should come first.
 
+## Simplified Leadership-Principle Lens
+
+The first prototype also includes a simplified rating layer inspired by Amazon leadership principles.
+
+These ratings are:
+
+- interpretive and evidence-backed
+- intentionally simplified for human inspection
+- derived from trait combinations plus direct evidence when present
+- not official or canonical measurements
+
+Suggested principle set for v1:
+
+- Customer Obsession
+- Ownership
+- Invent and Simplify
+- Are Right, A Lot
+- Learn and Be Curious
+- Hire and Develop the Best
+- Insist on the Highest Standards
+- Think Big
+- Bias for Action
+- Frugality
+- Earn Trust
+- Dive Deep
+- Have Backbone; Disagree and Commit
+- Deliver Results
+- Strive to be Earth's Best Employer
+- Success and Scale Bring Broad Responsibility
+
 ## First Scenario Set
 
 - urgent production issue with ambiguous evidence

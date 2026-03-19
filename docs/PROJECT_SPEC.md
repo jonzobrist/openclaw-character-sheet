@@ -13,6 +13,7 @@ This project creates a human-friendly interface for understanding:
 - what an agent is configured to do
 - what constraints shape its behavior
 - how those instructions translate into likely behavioral tendencies
+- how those tendencies map onto simplified leadership-principle lenses
 - how a proposed change may alter behavior in realistic scenarios
 
 ## Primary Users
@@ -50,6 +51,7 @@ A normalized profile containing:
 - agent identity and metadata
 - models, tools, skills, and major constraints
 - evidence-backed behavioral traits
+- simplified leadership-principle ratings
 - scenario test definitions and result summaries
 
 ### Core Views
@@ -98,12 +100,20 @@ V1 should support:
 
 Render the profile in a character-sheet style interface with clear explanations and visual summaries.
 
+The first visual direction is intentionally playful:
+
+- fantasy tabletop tone
+- parchment and codex-inspired panels
+- a named sample agent, `OpenClaw Lobster`
+- behavioral stats plus a leadership-principle codex
+
 ## Guiding UX Principles
 
 - show evidence beside interpretation
 - make changes legible with before/after comparisons
 - prefer explicit uncertainty over false confidence
 - keep the experience playful, but not unserious
+- use themed presentation to make complex config inspection feel approachable
 
 ## Open Questions
 
@@ -118,4 +128,4 @@ Render the profile in a character-sheet style interface with clear explanations 
 2. finalize initial trait rubric
 3. inspect one real workspace and build a parser
 4. output profile JSON from CLI
-5. build UI against saved JSON fixtures
+5. build UI against saved fixtures and generated profiles
